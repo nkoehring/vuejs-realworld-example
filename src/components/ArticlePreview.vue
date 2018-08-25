@@ -1,7 +1,7 @@
 <template>
 <div class="article-preview">
   <ArticleMeta :article="article" :preview="true" />
-  <router-link :to="{name: 'article', params: {slug: article.slug}}" class="preview-link">
+  <router-link :to="{name: 'article-view', params: {slug: article.slug}}" class="preview-link">
     <h1>{{ article.title }}</h1>
     <p>{{ article.description }}</p>
     <span>Read more...</span>

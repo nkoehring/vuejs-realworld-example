@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/Home.vue'
-import Article from '@/Article.vue'
+import ArticleView from '@/ArticleView.vue'
 
 Vue.use(Router)
 
@@ -14,8 +14,8 @@ export default new Router({
     },
     {
       path: '/article/:slug',
-      name: 'article',
-      component: Article
+      name: 'article-view',
+      component: ArticleView
     },
     {
       path: '/profile/:username',

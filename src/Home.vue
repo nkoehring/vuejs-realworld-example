@@ -39,6 +39,7 @@
           <p>Popular Tags</p>
 
           <div class="tag-list">
+            <a v-if="tagsLoading" class="tag-pill">Loading tags...</a>
             <a :key="tag" href="" class="tag-pill tag-default" v-for="tag in tags">{{ tag }}</a>
           </div>
         </div>
@@ -53,38 +54,15 @@
 <script>
 // @ is an alias to /src
 import ArticlePreview from '@/components/ArticlePreview.vue'
-
-const articles = [{
-  author: { username: 'Eric Simons', image: 'http://i.imgur.com/Qr71crq.jpg' },
-  createdAt: 'January 20th',
-  favouritesCount: 29,
-  title: 'How to build webapps that scale',
-  description: 'This is the description for the post',
-  tagList: []
-}, {
-  author: { username: 'Albert Pai', image: 'http://i.imgur.com/N4VcUeJ.jpg' },
-  createdAt: 'January 20th',
-  favouritesCount: 32,
-  title: 'The song you won\'t ever stop singing. No matter how hard you try.',
-  description: 'This is the description for the post',
-  tagList: []
-}]
-const tags = [
-  'programming',
-  'javascript',
-  'emberjs',
-  'angularjs',
-  'react',
-  'mean',
-  'node',
-  'rails'
-]
+import { mapState } from 'vuex'
 
 export default {
   name: 'home',
   components: { ArticlePreview },
-  data () {
-    return { articles, tags }
+  computed: mapState('HomePage', ['articles', 'tags', 'articlesLoading', 'tagsLoading']),
+  beforeCreate () {
+    this.$store.dispatch('HomePage/fetchRecentArticles')
+    this.$store.dispatch('HomePage/fetchTags')
   }
 }
 </script>
