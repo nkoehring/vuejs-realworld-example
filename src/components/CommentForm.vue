@@ -1,7 +1,7 @@
 <template>
 <form class="card comment-form" @submit.prevent="$emit('submit', $event)">
   <div class="card-block">
-    <textarea class="form-control" placeholder="Write a comment..." rows="3">{{ comment.body }}</textarea>
+    <textarea class="form-control" placeholder="Write a comment..." rows="3" v-model="comment.body"></textarea>
   </div>
   <div class="card-footer">
     <img :src="comment.author.image" class="comment-author-img" />

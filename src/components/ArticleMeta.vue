@@ -8,7 +8,7 @@
     <router-link :to="{name: 'profile', params: {username: article.author.username}}" class="author">
       {{ article.author.username }}
     </router-link>
-    <span class="date">{{ article.createdAt }}</span>
+    <span class="date">{{ article.createdAt | date }}</span>
   </div>
 
   <template v-if="preview">
