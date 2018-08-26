@@ -1,5 +1,13 @@
 <template>
-<div class="article-page">
+<div class="article-page" v-if="isLoading">
+  <div class="banner">
+    <div class="container">
+      Loading article...
+    </div>
+  </div>
+</div>
+
+<div class="article-page" v-else>
 
   <div class="banner">
     <div class="container">
@@ -33,17 +41,19 @@ import marked from 'marked'
 import ArticleMeta from '@/components/ArticleMeta.vue'
 import CommentList from '@/CommentList.vue'
 
+import { createNamespacedHelpers } from 'vuex'
+const { mapState } = createNamespacedHelpers('Article')
+
 export default {
   name: 'article-view',
   components: { ArticleMeta, CommentList },
   async beforeRouteEnter (to, from, next) {
     await store.dispatch('Article/fetch', to.params.slug)
+    store.dispatch('Article/Comments/fetch', to.params.slug)
     next()
   },
   computed: {
-    article () {
-      return this.$store.state.Article
-    },
+    ...mapState(['article', 'isLoading']),
     renderedContent () {
       return marked(this.article.body)
     }

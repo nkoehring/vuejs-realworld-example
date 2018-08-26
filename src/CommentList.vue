@@ -2,46 +2,41 @@
 <div class="row">
   <div class="col-xs-12 col-md-8 offset-md-2">
     <CommentForm :comment="newComment" @submit="submitComment($event)" />
-    <Comment v-for="(comment,i) in comments"
-      :key="i"
+
+    <div v-if="isLoading">loading comments...</div>
+    <Comment v-for="comment in comments" v-else
+      :key="comment.id"
       :comment="comment"
-      :modifiable="isCurrentUser(comment.author)"
+      :options="isCurrentUser(comment.author)"
+      @trash="trash(comment.id)"
     />
   </div>
 </div>
 </template>
 
 <script>
-// import { mapGetters, mapActions } from 'vuex'
 import CommentForm from '@/components/CommentForm.vue'
 import Comment from '@/components/Comment.vue'
 
+import { createNamespacedHelpers } from 'vuex'
+const { mapState, mapActions } = createNamespacedHelpers('Article/Comments')
+
 export default {
   components: { CommentForm, Comment },
-  beforeCreate () {
-    // TODO:
-    // this.$store.dispatch('article/comments/fetch')
-  },
   computed: {
-    // TODO: use mapGetters
+    ...mapState(['comments', 'isLoading']),
     currentUser () {
       return { username: 'Señor Developer' }
     },
     newComment () {
       return { author: this.currentUser }
-    },
-    comments () {
-      return []
     }
   },
   methods: {
-    // TODO: use mapActions
+    ...mapActions(['trash', 'submit']),
     isCurrentUser (comment) {
       // return currentUser.username === comment.author.username
       return true
-    },
-    submitComment (evt) {
-      console.warn('would submit comment', evt)
     }
   }
 }
